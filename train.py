@@ -22,6 +22,10 @@ def readfile(path, label):
       return x, y
     else:
       return x
+def savemodel(model, path, epoch):
+    f = os.path.join(path, 'checkpoint-{:06d}'.format(epoch))
+    torch.save(model.state_dict(), f)
+    print("saved model")
 if __name__ == '__main__':
     #data augmentation
     train_transform = transforms.Compose([
@@ -98,7 +102,8 @@ if __name__ == '__main__':
             print('[%03d/%03d] %2.2f sec(s) Train Acc: %3.6f Loss: %3.6f | Val Acc: %3.6f loss: %3.6f' % \
                 (epoch + 1, num_epoch, time.time()-epoch_start_time, \
                  train_acc/train_set.__len__(), train_loss/train_set.__len__(), val_acc/val_set.__len__(), val_loss/val_set.__len__()))
-
+    savemodel(model, "./", 1)
+'''
     #torch.save({'state_dict': model.state_dict()}, 'hw3_parm_b.pkl')
     model.eval()
     prediction = []
@@ -120,3 +125,4 @@ if __name__ == '__main__':
         #f.write('Id,Category\n')
         for i, y in  enumerate(all_pred):
             f.write(str(y)+ '\n')
+'''
